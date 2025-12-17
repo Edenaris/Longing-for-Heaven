@@ -11,7 +11,7 @@ from app.api import main
 
 
 
-app = FastAPI(title="Longing for heaven", lifespan=lifespan)
+app = FastAPI(title="Longing for heaven")
 
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
