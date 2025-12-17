@@ -9,29 +9,7 @@ from app.backend_admin_preload import initializate_admin
 from app.core.database import async_session
 from app.api import main
 
-from contextlib import asynccontextmanager
 
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    print("Startup: initializing Redis...")
-    await redis_module.init_redis()
-    if redis_module.redis is not None:
-        print("Redis успешно инициализирован")
-    else:
-        print("Redis не инициализирован!")
-
-    async with async_session() as db:
-        admin = await initializate_admin(db)
-        if not admin:
-            print("Не удалось создать или получить администратора. Завершение приложения.")
-            sys.exit(1)
-
-    yield  # ⬅ Здесь приложение работает
-
-    # shutdown
-    if redis_module.redis is not None:
-        await redis_module.redis.close()
 
 app = FastAPI(title="Longing for heaven", lifespan=lifespan)
 

@@ -23,25 +23,12 @@ async def login(
     Authenticate a user using their email and password, and set an access token as a cookie.
     """
 
-    ip = request.client.host
-    key = f"login_attempts:{ip}"
-
-    if redis_module.redis is None:
-        raise RuntimeError("Redis не инициализирован — вызови init_redis при старте приложения")
-
-    attempts = await redis_module.redis.get(key)
-    logger.info(f"LOGIN ATTEMPTS FOR IP: {ip} - {attempts}")
-
-    if await is_blocked(key=key):
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail="Too many login attempts. Try again later."
-        )
+    
     
     db_user = await authenticate(db=db, user_email=form_data.username, password=form_data.password)
 
     if not db_user:
-        await increment_attempts(key=key)
+        
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid email or password!"
