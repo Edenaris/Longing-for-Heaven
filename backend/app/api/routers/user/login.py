@@ -42,7 +42,7 @@ async def login(
         value=access_token,
         httponly=True,
         secure=True,
-        samesite="lax"
+        samesite="none"
     )
    
 
