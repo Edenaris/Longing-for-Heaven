@@ -189,6 +189,9 @@ const LoginForm: React.FC = () => {
                 <Link to="/sign-up" className="text-blue-400 ml-1 hover:text-blue-700">
                     Sign up
                 </Link>
+                <Link to="/admin" className="text-blue-400 ml-1 hover:text-blue-700">
+                    Admin
+                </Link>
             </span>
         </form>
     )
