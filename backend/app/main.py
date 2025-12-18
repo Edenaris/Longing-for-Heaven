@@ -1,5 +1,6 @@
 import sys
 import logging
+import os
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,18 +12,19 @@ from app.backend_admin_preload import initializate_admin
 from app.core.database import async_session
 from app.api import main
 
-# 1. Настройка логирования (чтобы видеть ошибки в Render)
+# 1. Настройка логирования
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# 2. Создание приложения (ОДИН РАЗ!)
 app = FastAPI(title="Longing for heaven")
 
-# 2. Настройка CORS (Ставим это ДО подключения роутов)
+# 3. Настройка CORS (ДО подключения роутов)
 origins = [
     "https://longing-heaven-frontend.onrender.com",
-    "http://longing-heaven-frontend.onrender.com", # На случай, если будет http
-    "http://localhost:3000", # Для локальной разработки
-    "http://localhost:5173", # Vite дефолтный порт
+    "http://longing-heaven-frontend.onrender.com",
+    "http://localhost:3000",
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
@@ -33,43 +35,47 @@ app.add_middleware(
     allow_credentials=True,
 )
 
-# 3. Подключение статики
-app.mount("/static", StaticFiles(directory="app/static"), name="static")
+# 4. Подключение статики (ОДИН РАЗ!)
+static_path = os.path.join(os.path.dirname(__file__), "static")
+if os.path.exists(static_path):
+    app.mount("/static", StaticFiles(directory=static_path), name="static")
+    logger.info(f"Static files mounted from: {static_path}")
+else:
+    logger.warning(f"Static directory not found: {static_path}")
 
-# 4. События запуска (ВАЖНО: без этого база данных не подключится и будет ошибка 500)
+# 5. События запуска
 @app.on_event("startup")
 async def startup_event():
     logger.info("Startup: initializing application...")
     
-    # Инициализация Redis с обработкой ошибок
+    # Инициализация Redis
     try:
         redis_module.init_redis()
         if redis_module.redis is not None:
             logger.info("Redis успешно инициализирован")
         else:
-            logger.warning("Redis не инициализирован (переменная равна None)!")
+            logger.warning("Redis не инициализирован")
     except Exception as e:
         logger.error(f"Ошибка при подключении Redis: {e}")
 
-    # Инициализация Админа / БД
+    # Инициализация Админа
     try:
         async with async_session() as db:
             admin = await initializate_admin(db)
             if not admin:
-                logger.warning("Не удалось создать или получить администратора.")
-                # sys.exit(1) # Лучше не убивать приложение сразу, а дать ему работать
+                logger.warning("Не удалось создать администратора")
             else:
-                logger.info("Администратор инициализирован.")
+                logger.info("Администратор инициализирован")
     except Exception as e:
-        logger.critical(f"Критическая ошибка базы данных при старте: {e}")
+        logger.critical(f"Критическая ошибка БД при старте: {e}")
 
 @app.on_event("shutdown")
 async def shutdown_event():
     if hasattr(redis_module, 'redis') and redis_module.redis is not None:
         await redis_module.redis.close()
-        logger.info("Redis connection closed.")
+        logger.info("Redis connection closed")
 
-# 5. Подключение маршрутов (Роуты подключаем в конце)
+# 6. Подключение маршрутов
 app.include_router(main.router)
 
 @app.get("/", response_model=dict)
@@ -78,5 +84,4 @@ async def read_home():
 
 if __name__ == "__main__":
     import uvicorn 
-    # При деплое на Render хост обычно 0.0.0.0, порт берется из env, но для локального запуска:
     uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
