@@ -33,7 +33,7 @@ async def login(
         value=access_token,
         httponly=True,
         secure=True,
-        samesite="lax"
+        samesite="none"
     )
 
     return Message(data="Signed in successfully!")
