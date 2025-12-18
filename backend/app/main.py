@@ -17,7 +17,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
 app.include_router(main.router)
 
-origins = ["http://localhost:5173"]
+origins = ["https://longing-heaven-frontend.onrender.com"]
 
 app.add_middleware(
     CORSMiddleware,
