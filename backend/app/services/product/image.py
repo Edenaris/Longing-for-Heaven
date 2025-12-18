@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
 
 from app.models import ProductImage
-from app.schemas import ProductImageCreate
+from app.schemas import ProductImageCreate, ProductImageUpdateUrl
 from app.utils.logger import logger
 
 async def get_product_im_by_id(*, db: AsyncSession, product_im_id: UUID) -> ProductImage:
@@ -60,6 +60,28 @@ async def create_product_im(
     await db.refresh(new_product_im)
 
     return new_product_im
+
+
+async def update_product_im_path(
+    *,
+    db: AsyncSession,
+    product_im_id: UUID,
+    product_update_url: ProductImageUpdateUrl,
+):
+    db_product_im = await get_product_im_by_id(db=db, product_im_id=product_im_id)
+
+    if not db_product_im:
+        return None
+    
+    update_data = product_update_url.model_dump(exclude_unset=True)
+    for k, v in update_data.items():
+        if v is not None:
+            setattr(db_product_im, k, v)
+    
+    await db.commit()
+    await db.refresh(db_product_im)
+
+    return db_product_im
 
 
 async def delete_product_im(

@@ -108,6 +108,10 @@ class ProductImagePublic(ProductImageBase):
     model_config = {"from_attributes": True}
 
 
+class ProductImageUpdateUrl(BaseModel):
+    photo_url: str = Field(..., min_length=1, max_length=255)
+
+
 class SizeEnum(str, PyEnum):
     M = "m"
     L = "l"

@@ -6,7 +6,7 @@ import shutil
 from fastapi import APIRouter, HTTPException, Query, status, UploadFile, File
 
 from app.utils.logger import logger
-from app.schemas import ProductImageCreate, ProductImagePublic, Message
+from app.schemas import ProductImageCreate, ProductImagePublic, Message, ProductImageUpdateUrl
 from app.services.product.image import (
     get_product_im_by_id,
     get_product_ims,
@@ -82,6 +82,20 @@ async def create_new_product_im(db: SessionDep, product_im_create: ProductImageC
         )
     
     return new_product_image
+
+
+@router.put("/{product_im_id}", response_model=ProductImagePublic)
+async def update_product_image_path_by_id(
+    db: SessionDep,
+    product_im_id: UUID,
+    product_update_url: ProductImageUpdateUrl,
+):
+    updated_product_im = await update_product_im_path(db=db, product_im_id=product_im_id, product_update_url=product_update_url)
+
+    if not updated_product_im:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Not found!")
+    
+    return updated_product_im
 
 
 @router.post("/upload/{product_id}", response_model=ProductImagePublic)
