@@ -85,7 +85,7 @@ const ProductInfo: React.FC<ProductInfoProps> = ({id, setProductInfoID}) => {
                     {product.images.length > 0 && product.images.map((image, index) => (
                         <div key={image.id} className="flex w-full justify-center gap-5 items-center">
                             <span>{index + 1}</span>
-                            <img src={`http://localhost:8000/${image.photo_url}`} alt="product-image" className="w-[108px] h-[120px]"/>
+                            <img src={`https://longing-heaven-backend.onrender.com/${image.photo_url}`} alt="product-image" className="w-[108px] h-[120px]"/>
                         </div>
                     ))}
                     </div>

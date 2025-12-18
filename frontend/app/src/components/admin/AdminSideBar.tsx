@@ -70,7 +70,7 @@ const AdminSideBar: React.FC<SideBarProps> = ({choosenRow, setChoosenRow}) => {
             
             <div id="admin-title" className="w-full flex justify-center flex-col text-sm z-50 mb-5">
                 <div id="" className=" self-center">
-                    <img src={`http://localhost:8000/${admin?.avatar_url}`} alt="Admin logo" className="size-20 rounded-full" />
+                    <img src={`https://longing-heaven-backend.onrender.com/${admin?.avatar_url}`} alt="Admin logo" className="size-20 rounded-full" />
                 </div>
                 <div className="flex flex-col items-center text-wrap break-words">
                     <span className="text-lg ">{admin?.name}</span>

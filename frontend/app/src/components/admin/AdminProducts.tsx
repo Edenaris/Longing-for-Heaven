@@ -94,7 +94,7 @@ const AdminProducts: React.FC = () => {
                                 <td scope="col" className="border border-slate-400 w-15 px-1 py-3 text-center tracking-wider">{product.price}</td>
                                 <td scope="col" className="border border-slate-400 w-15 px-1 py-3 text-center tracking-wider">{product.stock}</td>
                                 <td align="center" scope="col" className="border border-slate-400 w-20 px-2.5 py-3 tracking-wider bg-white">
-                                    {product.images.length > 0 && <img className="size-15" src={`http://localhost:8000/${product.images[0].photo_url}`} alt="img-first-picture" />}
+                                    {product.images.length > 0 && <img className="size-15" src={`https://longing-heaven-backend.onrender.com/${product.images[0].photo_url}`} alt="img-first-picture" />}
                                 </td>
                                 <td scope="col" className="border border-slate-400 w-30 px-1 py-3 text-left tracking-wider" onClick={() => handleRemoveProduct(product.id)}>delete</td>
                             </tr>

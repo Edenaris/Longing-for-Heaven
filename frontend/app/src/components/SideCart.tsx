@@ -105,7 +105,7 @@ const SideCart: React.FC = () => {
                 }
                 { cart.cart_items && cart.cart_items.length > 0 && cart.cart_items.map((cartItem) => (
                     <div key={cartItem.id} className="w-[350px] h-30 flex">
-                        <img src={`http://localhost:8000/${cartItem.thumbnail}`} alt="cart-item" onClick={() => navigate(`/shop/${cartItem.product_id}`)} className="h-[99px] w-[89.1px]"/>
+                        <img src={`https://longing-heaven-backend.onrender.com/${cartItem.thumbnail}`} alt="cart-item" onClick={() => navigate(`/shop/${cartItem.product_id}`)} className="h-[99px] w-[89.1px]"/>
                         <div id="info" className="flex flex-col w-full gap-1.5 pb-2.5 pl-2">
                             <span className="text-xl">{cartItem.product.name}</span>
                             <div id="price-increment" className="flex justify-between">

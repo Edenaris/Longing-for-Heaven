@@ -51,7 +51,7 @@ const SideBar: React.FC = () => {
                     </svg>
                 </div>
                 <div id="user-info" className="flex items-center text-base w-full h-15 gap-2.5 mb-2.5">
-                    <img src={user.avatar_url? `http://localhost:8000/${user.avatar_url}` : "http://localhost:8000/static/avatars/d-avatar.jpg"} alt="user-logo" className="size-12 rounded-full shadow-md" />
+                    <img src={user.avatar_url? `https://longing-heaven-backend.onrender.com/${user.avatar_url}` : "https://longing-heaven-backend.onrender.com/static/avatars/d-avatar.jpg"} alt="user-logo" className="size-12 rounded-full shadow-md" />
                     <span  id="user-name-email" className="flex flex-col">
                         {user.name} 
                         <span className="text-sm">{user.email}</span>

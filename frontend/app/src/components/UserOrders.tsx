@@ -58,7 +58,7 @@ const UserOrders: React.FC = () => {
                     <div id="short-user-info" className="flex gap-1 items-center w-full mb-5" >
                         {user.avatar_url ? ( 
                             user.avatar_url.startsWith("s") ? (
-                                <img src={`http://localhost:8000/${user.avatar_url}`} alt="user-avatar" className="size-14 rounded-full mr-2.5 shadow-md"/> 
+                                <img src={`https://longing-heaven-backend.onrender.com/${user.avatar_url}`} alt="user-avatar" className="size-14 rounded-full mr-2.5 shadow-md"/> 
                             ) : ( 
                                 <img src={user.avatar_url} alt="user-avatar" className="size-10 rounded-full mr-2.5"/>
                             )

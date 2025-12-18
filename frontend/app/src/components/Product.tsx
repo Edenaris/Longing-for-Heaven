@@ -175,12 +175,12 @@ const Product: React.FC<{id: string}> = ({ id }) => {
                     <div id="selector-pictures" className="flex flex-col  max-h-90 overflow-auto items-center ml-5 gap-2.5 w-25 select-none">
                         {
                             product.images.map((image, id) => (
-                                <img key={image.id} className={`w-[81px] h-[90px] cursor-pointer duration-120 ${selectedImageID == id ? "brightness-80" : "hover:brightness-80"}`} src={`http://localhost:8000/${image.photo_url}`} alt="product-image" onClick={() => setSelectedImageID(id)} />
+                                <img key={image.id} className={`w-[81px] h-[90px] cursor-pointer duration-120 ${selectedImageID == id ? "brightness-80" : "hover:brightness-80"}`} src={`https://longing-heaven-backend.onrender.com/${image.photo_url}`} alt="product-image" onClick={() => setSelectedImageID(id)} />
                             )) 
                         }
                     </div>
                     <div id="selected-picture" className="w-130 border-gray-100  flex justify-center relative h-[390px] select-none">
-                        <img src={`http://localhost:8000/${product.images[selectedImageID].photo_url}`} alt="selected picture" className="w-[350px] h-[390px]"/>
+                        <img src={`https://longing-heaven-backend.onrender.com/${product.images[selectedImageID].photo_url}`} alt="selected picture" className="w-[350px] h-[390px]"/>
                         <div onClick={() => setSelectedImageID(prev => prev > 0 ? prev -= 1 : product.images.length -1 )} className="h-full hover:bg-gray-800/10 duration-140 w-21.25 cursor-pointer ease-linear absolute left-0 top-0 flex items-center justify-center">
                         </div>
                         <div onClick={() => setSelectedImageID(prev => prev < product.images.length -1 ? prev+=1 : 0 )} className="h-full hover:bg-gray-800/10 duration-140 w-21.25 cursor-pointer ease-linear absolute right-0 top-0 flex items-center justify-center">
