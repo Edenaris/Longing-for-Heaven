@@ -13,9 +13,12 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         const checkAdmin = async () => {
             try {
+                console.log("1");
                 const response = await api.get("/admins/current")
                 console.log(response.data);
+                
             }   catch (error) {
+                console.log("2");
                 console.log("Error", error);
                 navigate("/")
             }

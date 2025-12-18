@@ -22,6 +22,7 @@ const AdminLoginPage: React.FC = () => {
         e.preventDefault();
 
         try {
+            console.log("3");
             const response = await api.post("/admin/login", {
                 username: adminLogin.email,
                 password: adminLogin.password,
@@ -29,9 +30,11 @@ const AdminLoginPage: React.FC = () => {
                 "Content-Type": "application/x-www-form-urlencoded"
             }});
             if (response.data) {
+                console.log("5");
                 navigate("/admin/page")
             }
         } catch ( error: any ) {
+            console.log("4");
             if (error.response) {
                 console.error("Server error: ", error.response);
             } else {
