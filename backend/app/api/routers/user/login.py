@@ -41,10 +41,10 @@ async def login(
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=False,
+        secure=True,
         samesite="lax"
     )
-    await redis_module.redis.delete(key)
+   
 
     return Message(data="Signed in successfully!")
 
