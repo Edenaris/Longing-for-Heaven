@@ -34,19 +34,34 @@ interface ProductSizesProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({product, onAddToCart, productIdsInCart }) => {
-    const [selectedSizeID, setSelectedSizeID] = useState<string>(product.sizes[0].size_id);
+    // ИСПРАВЛЕНИЕ: Проверяем что sizes существует и не пустой
+    const [selectedSizeID, setSelectedSizeID] = useState<string>(
+        product.sizes && product.sizes.length > 0 && product.sizes[0]?.size_id 
+            ? product.sizes[0].size_id 
+            : ''
+    );
     const [hover, setHover] = useState<boolean>(false);
     const navigate = useNavigate();
     const maxQuantity = useRef(0);
 
     useEffect(() => {
+        if (!selectedSizeID || !product.sizes) return; // ИСПРАВЛЕНИЕ: Защита
+        
         const pSize = product.sizes.find((temp_ps) => temp_ps.size_id === selectedSizeID)
         if (pSize) {
             maxQuantity.current = pSize.quantity;
         }
         console.log(product.images)
-    }, [selectedSizeID])
+    }, [selectedSizeID, product.sizes, product.images])
     
+    // ИСПРАВЛЕНИЕ: Если нет sizes или images - не показываем карточку
+    if (!product.sizes || product.sizes.length === 0) {
+        return null;
+    }
+
+    if (!product.images || product.images.length === 0) {
+        return null;
+    }
 
     return(
         <div key={product.id} className={`flex flex-col  h-[550px] bg-white py-10 px-4 sm:w-[320px] items-center relative rounded-md hover:z-20 overflow-visible ${hover && "md:hover:shadow-[0_2px_10px_rgba(0,0,0,0.25)]"}`}   onMouseLeave={() => setHover(false)} >
